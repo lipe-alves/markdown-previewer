@@ -1,0 +1,32 @@
+@import "colors";
+
+body,
+html {
+    width: 100%;
+    height: 100vh;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: Inter, SF Pro, Segoe UI, Roboto, Oxygen, Ubuntu, Helvetica Neue,
+        Helvetica, Arial, sans-serif !important;
+    margin: 0;
+
+    $themes: "light", "dark";
+
+    @each $theme in $themes {
+        &[data-theme="#{$theme}"] {
+            $colors: map-get($palettes, $theme);
+            --primary-color: #{map-get($colors, primary)};
+            --secondary-color: #{map-get($colors, secondary)};
+            --text-color: #{map-get($colors, text)};
+            --error-color: #{map-get($colors, error)};
+            --success-color: #{map-get($colors, success)};
+            --info-color: #{map-get($colors, info)};
+        }
+    }
+}

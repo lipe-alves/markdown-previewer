@@ -1,0 +1,61 @@
+{
+    "name": "react-typescript",
+    "version": "1.0.0",
+    "description": "React and TypeScript example starter project",
+    "scripts": {
+        "prebuild": "node scripts/delete-zone-identifiers.js && node scripts/sync-path-aliases.js",
+        "build": "react-app-rewired build",
+        "prestart": "npm run build",
+        "start": "react-app-rewired start",
+        "test": "react-app-rewired test",
+        "eject": "react-scripts eject",
+        "predeploy": "npm run build",
+        "deploy": "firebase deploy --only hosting:mk-previewer"
+    },
+    "keywords": [
+        "typescript",
+        "react",
+        "starter"
+    ],
+    "main": "src/index.tsx",
+    "dependencies": {
+        "@emotion/react": "11.11.4",
+        "@emotion/styled": "11.11.5",
+        "@floating-ui/dom": "1.6.5",
+        "@mui/material": "5.15.18",
+        "@styled-icons/bootstrap": "10.47.0",
+        "@styled-icons/boxicons-regular": "10.47.0",
+        "@styled-icons/fluentui-system-filled": "10.47.0",
+        "@styled-icons/ionicons-outline": "10.46.0",
+        "@styled-icons/material": "10.47.0",
+        "@styled-icons/typicons": "10.46.0",
+        "@syman/html2pdf": "0.1.2",
+        "es6-promise": "4.2.8",
+        "firebase": "^10.12.2",
+        "html2canvas": "1.4.1",
+        "jspdf": "2.5.1",
+        "loader-utils": "3.2.1",
+        "marked": "12.0.2",
+        "pdf-lib": "1.17.1",
+        "react": "17",
+        "react-dom": "17",
+        "react-scripts": "5.0.1",
+        "styled-components": "6.1.11",
+        "trim-canvas": "0.1.2"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
+        "@types/react": "18.2.38",
+        "@types/react-dom": "18.2.15",
+        "react-app-rewire-alias": "1.1.7",
+        "react-app-rewired": "2.2.1",
+        "sass": "1.77.0",
+        "typescript": "4.4.4"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ]
+}

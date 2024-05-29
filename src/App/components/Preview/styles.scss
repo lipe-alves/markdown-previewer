@@ -1,0 +1,70 @@
+@import "../../../styles/variables";
+
+#preview {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: $spacing-md;
+    background-color: #fff;
+    flex: 1 !important;
+
+    $preview-spacing: 2 * $spacing-lg;
+    height: calc(100% - 2 * #{$preview-spacing}) !important;
+    width: calc(100% - 2 * #{$preview-spacing}) !important;
+    padding: $preview-spacing;
+
+    $heading-levels: 1, 2, 3, 4, 5, 6;
+    $paragraph-font-size: $font-md;
+
+    @each $level in $heading-levels {
+        h#{$level} {
+            $base-font-size: $font-sm;
+            $min-font-size: 1 * $base-font-size;
+            $max-font-size: 6 * $min-font-size;
+
+            text-align: center;
+            font-size: Max(
+                Min(6 / $level * $base-font-size, $max-font-size),
+                $min-font-size
+            );
+            color: #000;
+            margin: 0;
+        }
+    }
+
+    p {
+        font-size: $paragraph-font-size;
+        margin: 0;
+    }
+
+    table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+
+        td,
+        th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        tr {
+            &:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            &:hover {
+                background-color: #ddd;
+            }
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #ddd;
+            color: #fff;
+        }
+    }
+}

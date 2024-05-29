@@ -1,0 +1,76 @@
+{
+    "include": [
+        "./src/**/*"
+    ],
+    "compilerOptions": {
+        "strict": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "lib": [
+            "dom",
+            "es2015",
+            "es2020"
+        ],
+        "jsx": "react-jsx",
+        "baseUrl": "./src",
+        "paths": {
+            "@constants/*": [
+                "constants/*"
+            ],
+            "@constants": [
+                "constants/index.ts"
+            ],
+            "@dictionaries/*": [
+                "dictionaries/*"
+            ],
+            "@dictionaries": [
+                "dictionaries/index.ts"
+            ],
+            "@services/*": [
+                "services/*"
+            ],
+            "@services": [
+                "services/index.ts"
+            ],
+            "@models/*": [
+                "models/*"
+            ],
+            "@models": [
+                "models/index.ts"
+            ],
+            "@components/*": [
+                "components/*"
+            ],
+            "@components": [
+                "components/index.ts"
+            ],
+            "@hooks/*": [
+                "hooks/*"
+            ],
+            "@hooks": [
+                "hooks/index.ts"
+            ],
+            "@providers/*": [
+                "providers/*"
+            ],
+            "@providers": [
+                "providers/index.ts"
+            ],
+            "@types/*": [
+                "types/*"
+            ],
+            "@types": [
+                "types/index.ts"
+            ],
+            "@functions/*": [
+                "functions/*"
+            ],
+            "@functions": [
+                "functions/index.ts"
+            ],
+            "@styles/*": [
+                "styles/*"
+            ]
+        }
+    }
+}

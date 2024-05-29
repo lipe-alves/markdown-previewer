@@ -1,0 +1,9 @@
+.Modal {
+    &[data-variant="success"] {
+        color: var(--success-color);
+    }
+
+    &[data-variant="error"] {
+        color: var(--error-color);
+    }
+}

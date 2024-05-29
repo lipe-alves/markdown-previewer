@@ -1,0 +1,87 @@
+@import "../../../styles/variables";
+
+.Markdown {
+    position: relative;
+    display: flex;
+    flex: 1 !important;
+
+    $padding: $spacing-lg;
+    $line-list-width: 50px;
+
+    &Textarea,
+    &Highlighted {
+        padding: $spacing-lg;
+        margin: 0;
+        font-size: $font-md;
+        max-width: calc(100% - 2 * #{$padding});
+        overflow-y: auto;
+        overflow-x: hidden;
+        outline: none;
+        border: none;
+    }
+
+    &Textarea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        color: transparent;
+        caret-color: var(--text-color);
+        background-color: transparent;
+        width: calc(100% - 2 * #{$padding});
+        height: calc(100% - 2 * #{$padding});
+        resize: none;
+    }
+
+    &Highlighted {
+        position: relative;
+        z-index: 0;
+        flex: 1;
+
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+        font-weight: $weight-normal;
+
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+
+        padding-bottom: $padding * 1.708333333333;
+
+        span {
+            &[data-mk-element="title"] {
+                color: #d05968;
+            }
+
+            &[data-mk-element="ordered-list"],
+            &[data-mk-element="unordered-list"] {
+                color: #1a73e8;
+            }
+
+            &[data-mk-element="bold"] {
+                color: #824696;
+                font-style: bold;
+                font-weight: $weight-heavy;
+            }
+
+            &[data-mk-element="italic"] {
+                color: #9c6745;
+                font-style: italic;
+                font-weight: $weight-normal;
+            }
+
+            &[data-line-number="true"] {
+                display: inline-block;
+                width: $line-list-width;
+                color: var(--text-color);
+                opacity: 0.5;
+            }
+
+            &[data-line-text="true"] {
+                text-indent: -$line-list-width;
+            }
+        }
+    }
+}

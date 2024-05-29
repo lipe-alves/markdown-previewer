@@ -1,0 +1,25 @@
+@import "../../../styles/variables";
+
+.Panels {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+    height: calc(100% - #{$topbar-height});
+    overflow: hidden;
+
+    & > div {
+        flex: 1;
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .Panels {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "pt_BR": "Português (BR)",
+    "en_US": "Inglês (US)",
+    "Documents": "Documentos",
+    "Auto save": "Salvamento automático",
+    "Saving...": "Salvando...",
+    "Download": "Baixar",
+    "Save": "Salvar",
+    "My document": "Meu documento",
+    "Confirm": "Confirmar",
+    "Cancel": "Cancelar",
+    "Saved @timeAgo": "Salvou @timeAgo",
+    "What format do you wish to export your markdown file?": "Em qual formato você deseja exportar o seu arquivo markdown?",
+    "An unexpected error occurred": "Ocorreu um erro inesperado",
+    "Type a name for your document": "Digite um nome para o seu documento",
+    "Are you sure you want to delete?": "Você tem certeza que deseja deletar?"
+}

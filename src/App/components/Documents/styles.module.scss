@@ -1,0 +1,54 @@
+@import "../../../styles/variables";
+
+.Documents {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 0.6 !important;
+
+    &Header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: calc(100% - 2 * #{$spacing-md});
+        height: 30px;
+        padding: $spacing-md;
+        background-color: var(--secondary-color);
+        color: var(--text-color);
+    }
+
+    &List {
+        width: 100%;
+    }
+
+    &Item {
+        svg {
+            width: 30px;
+        }
+    }
+
+    &Title {
+        font-size: $font-md;
+        margin: 0;
+    }
+
+    &Add {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-sm;
+        text-transform: none !important;
+
+        &,
+        svg {
+            color: var(--text-color) !important;
+        }
+
+        svg {
+            width: $font-lg;
+        }
+    }
+}

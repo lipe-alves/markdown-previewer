@@ -1,0 +1,97 @@
+@import "../../../styles/variables";
+
+.Topbar {
+    $topbar-padding: $spacing-sm;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: $topbar-height;
+    width: calc(100% - 2 *#{$topbar-padding});
+    padding: 0 $topbar-padding;
+    border-bottom: 1px solid var(--secondary-color);
+    background-color: var(--primary-color);
+    white-space: nowrap;
+
+    &Right,
+    &Left {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        flex: 1;
+    }
+
+    &Right {
+        justify-content: flex-end;
+    }
+
+    &Left {
+        justify-content: flex-start;
+    }
+
+    &Button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: $spacing-sm;
+        text-transform: none !important;
+
+        &[disabled] {
+            opacity: 0.5;
+        }
+
+        &,
+        svg {
+            color: var(--text-color) !important;
+        }
+
+        svg {
+            width: $font-lg;
+        }
+    }
+
+    &ThemeButton {
+        @extend .TopbarButton;
+
+        svg {
+            width: $font-md;
+        }
+    }
+
+    &SaveDate {
+        margin: 0;
+        color: var(--info-color);
+    }
+
+    &Saving {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    &AutoSave {
+        color: var(--text-color) !important;
+    }
+
+    &LanguageSelector {
+        fieldset {
+            border: none !important;
+        }
+
+        &Option,
+        div[role="combobox"] {
+            display: flex !important;
+            flex-direction: row;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: $spacing-sm !important;
+
+            img {
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}
