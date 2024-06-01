@@ -10,7 +10,7 @@
         "test": "react-app-rewired test",
         "eject": "react-scripts eject",
         "predeploy": "npm run build",
-        "deploy": "firebase deploy --only hosting:mk-previewer"
+        "deploy": "firebase target:apply hosting mk-previewer markdown-previewer-d723b && firebase deploy"
     },
     "keywords": [
         "typescript",

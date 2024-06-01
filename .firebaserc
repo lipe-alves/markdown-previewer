@@ -1,5 +1,16 @@
 {
-    "projects": {
-        "default": "markdown-previewer-d723b"
+  "projects": {
+    "default": "markdown-previewer-d723b"
+  },
+  "targets": {
+    "markdown-previewer-d723b": {
+      "hosting": {
+        "mk-previewer": [
+          "markdown-previewer-d723b"
+        ]
+      }
     }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
