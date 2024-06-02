@@ -6,12 +6,18 @@ async function createMarkdownFile(
     filename: string,
     format: "pdf" | "html" | "mk" = "mk"
 ): Promise<File | undefined> {
+    if (!filename) filename = "untitled";
+
     let html = convertMarkdownToHtml(markdown);
     html = `<article id="preview">${html}</article>`;
 
-    const styleTag: HTMLStyleElement | null = document.querySelector(
-        '[id="/src/App/components/Preview/styles.scss:-css"]'
+    const styleTags: HTMLStyleElement[] = Array.from(
+        document.querySelectorAll("style")
     );
+    const styleTag = styleTags.find((styleTag) =>
+        styleTag.innerText.includes("#preview")
+    );
+
     if (!styleTag) return undefined;
 
     html += `<style>${styleTag.innerText}</style>`;
