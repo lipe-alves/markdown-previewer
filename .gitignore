@@ -9,6 +9,7 @@ stats.json
 # misc
 .DS_Store
 npm-debug.log*
+.firebase
 
 # yarn
 yarn-debug.log*
