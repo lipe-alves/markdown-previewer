@@ -9,10 +9,17 @@ import { mkDocuments } from "@services";
 
 import { useLoader } from "./Loader";
 
+function createEmptyMarkdownDocument() {
+    return new MarkdownDocument({
+        content: INITIAL_MK_CONTENT,
+    });
+}
+
 interface EditorValue {
     saving: boolean;
 
     drafts: MarkdownDocument[];
+    setDrafts: (drafts: MarkdownDocument[]) => void;
     document: MarkdownDocument;
     updateDocument: (updates: Partial<MarkdownDocument>) => void;
     selectDocument: (uid: string) => void;
@@ -35,9 +42,7 @@ function EditorProvider(props: ContextProviderProps) {
     const [saving, setSaving] = useState(false);
     const [drafts, setDrafts] = useState<MarkdownDocument[]>([]);
     const [document, setDocument] = useState<MarkdownDocument>(
-        new MarkdownDocument({
-            content: INITIAL_MK_CONTENT,
-        })
+        createEmptyMarkdownDocument()
     );
     const [autoSave, setAutoSave] = useState(
         localStorage.getItem(AUTO_SAVE_KEY) === "true"
@@ -66,6 +71,7 @@ function EditorProvider(props: ContextProviderProps) {
         if (docToDelete) {
             mkDocuments.delete(docToDelete);
             fetchDrafts();
+            setDocument(createEmptyMarkdownDocument());
         }
     };
 
@@ -125,6 +131,7 @@ function EditorProvider(props: ContextProviderProps) {
             value={{
                 saving,
                 drafts,
+                setDrafts,
                 document,
                 updateDocument,
                 selectDocument,
@@ -151,5 +158,10 @@ function useEditor() {
     return context;
 }
 
-export { EditorContext, EditorProvider, useEditor };
+export {
+    EditorContext,
+    EditorProvider,
+    useEditor,
+    createEmptyMarkdownDocument,
+};
 export type { EditorValue };
