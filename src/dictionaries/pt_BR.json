@@ -13,5 +13,12 @@
     "What format do you wish to export your markdown file?": "Em qual formato você deseja exportar o seu arquivo markdown?",
     "An unexpected error occurred": "Ocorreu um erro inesperado",
     "Type a name for your document": "Digite um nome para o seu documento",
-    "Are you sure you want to delete?": "Você tem certeza que deseja deletar?"
+    "Are you sure you want to delete?": "Você tem certeza que deseja deletar?",
+    "Dark theme": "Tema escuro",
+    "Light theme": "Tema claro",
+    "Theme": "Tema",
+    "Language": "Idioma",
+    "Markdown Previewer": "Visualizador de Markdown",
+    "Markdown Editor": "Editor de Markdown",
+    "Untitled": "Sem título"
 }

@@ -38,11 +38,7 @@ function Hamburger(props: HamburgerProps) {
                 <div className={styles.HamburgerButton} />
             </label>
             <ul className={styles.HamburgerMenu}>
-                <li>One</li>
-                <li>Two</li>
-                <li>Three</li>
-                <li>Four</li>
-                <li>Five</li>
+                {children}
             </ul>
         </div>
     );

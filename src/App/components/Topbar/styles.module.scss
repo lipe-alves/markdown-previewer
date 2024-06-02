@@ -83,7 +83,7 @@
         div[role="combobox"] {
             display: flex !important;
             flex-direction: row;
-            justify-content: space-between !important;
+            justify-content: flex-start !important;
             align-items: center !important;
             gap: $spacing-sm !important;
 

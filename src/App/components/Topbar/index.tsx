@@ -1,20 +1,23 @@
 import { useState, useMemo } from "react";
 import {
-    IconButton,
-    Button,
     FormControlLabel,
     Checkbox,
     TextField,
     MenuItem,
-    Select,
     SelectChangeEvent,
 } from "@mui/material";
 
 import { useTheme, useModal, useLoader, useEditor, useI18n } from "@providers";
-import { downloadFile, createMarkdownFile, getLanguageFlag } from "@functions";
+import {
+    downloadFile,
+    createMarkdownFile,
+    getLanguageFlag,
+    onEnterPress,
+} from "@functions";
 import { useForceUpdate, useInterval, useWindowSize } from "@hooks";
 import { languageList, Language } from "@dictionaries";
 import { Hamburger } from "@components";
+import { MarkdownDocument } from "@models";
 
 import { Moon } from "@styled-icons/boxicons-regular/Moon";
 import { Sun } from "@styled-icons/boxicons-regular/Sun";
@@ -22,6 +25,8 @@ import { Save } from "@styled-icons/boxicons-regular/Save";
 import { ExportOutline } from "@styled-icons/typicons/ExportOutline";
 import { FiletypeHtml } from "@styled-icons/bootstrap/FiletypeHtml";
 import { FiletypePdf } from "@styled-icons/bootstrap/FiletypePdf";
+
+import MenuButton, { MenuButtonProps } from "../MenuButton";
 
 import styles from "./styles.module.scss";
 
@@ -31,8 +36,14 @@ function Topbar() {
     const modal = useModal();
     const loader = useLoader();
     const forceUpdate = useForceUpdate();
-    const { document, saving, saveChanges, autoSave, setAutoSave } =
-        useEditor();
+    const {
+        document,
+        saving,
+        updateDocument,
+        saveChanges,
+        autoSave,
+        setAutoSave,
+    } = useEditor();
     const [windowWidth] = useWindowSize();
 
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
@@ -75,6 +86,11 @@ function Topbar() {
 
     const documentNameModal = (resolve: (name: string) => void) => {
         let name = "";
+
+        const handleResolve = (response: string) => () => {
+            modal.hide();
+            resolve(response);
+        };
 
         modal.show({
             title: t("Type a name for your document"),
@@ -134,8 +150,10 @@ function Topbar() {
 
     const handleSave = async () => {
         let name = document.name;
+        const isNameless =
+            !name || name === "Untitled" || name === t("Untitled");
 
-        if (!name) {
+        if (isNameless) {
             const promise = new Promise<string>(documentNameModal);
 
             name = await promise;
@@ -158,55 +176,73 @@ function Topbar() {
         setLanguage(evt.target.value as Language);
     };
 
+    const handleDocumentChange =
+        (prop: keyof MarkdownDocument, isCheckbox = false) =>
+        (evt: React.ChangeEvent<HTMLInputElement>) => {
+            updateDocument({
+                [prop]: evt.target[isCheckbox ? "checked" : "value"],
+            });
+        };
+
     useInterval(() => {
         forceUpdate();
     }, 5 * 60 * 1000);
 
-    const menuButtons = useMemo(() => {
-        return [
-            <Button
-                className={styles.TopbarButton}
-                onClick={handleExport}
-            >
-                <ExportOutline />
-                <span>{t("Download")}</span>
-            </Button>,
-            <Button
-                className={styles.TopbarButton}
-                onClick={handleSave}
-                disabled={saving}
-            >
-                <Save />
-                <span>{t("Save")}</span>
-            </Button>,
-            <IconButton
-                className={styles.TopbarThemeButton}
-                onClick={toggleTheme}
-            >
-                {theme === "light" ? <Moon /> : <Sun />}
-            </IconButton>,
-            <Select
-                className={styles.TopbarLanguageSelector}
-                onChange={handleChangeLanguage}
-                value={language}
-            >
-                {languageList.map((lang) => (
-                    <MenuItem
-                        key={lang}
-                        className={styles.TopbarLanguageSelectorOption}
-                        value={lang}
-                        disabled={language === lang}
-                    >
-                        <span>{t(lang)}</span>
-                        <img
-                            src={getLanguageFlag(lang)}
-                            alt={lang}
-                        />
-                    </MenuItem>
-                ))}
-            </Select>,
-        ];
-    }, [theme, language, saving]);
+    const menuButtons = useMemo(
+        () =>
+            [
+                {
+                    key: "download",
+                    className: styles.TopbarButton,
+                    label: t("Download"),
+                    icon: <ExportOutline />,
+                    onClick: handleExport,
+                    disabled: false,
+                    iconButton: false,
+                    selector: false,
+                },
+                {
+                    key: "save",
+                    className: styles.TopbarButton,
+                    label: t("Save"),
+                    icon: <Save />,
+                    onClick: handleSave,
+                    disabled: saving,
+                    iconButton: false,
+                    selector: false,
+                },
+                {
+                    key: "language",
+                    className: styles.TopbarLanguageSelector,
+                    onChange: handleChangeLanguage,
+                    value: language,
+                    selector: true,
+                    options: languageList.map((lang) => ({
+                        label: t(lang),
+                        className: styles.TopbarLanguageSelectorOption,
+                        value: lang,
+                        disabled: language === lang,
+                        icon: (
+                            <img
+                                src={getLanguageFlag(lang)}
+                                alt={lang}
+                            />
+                        ),
+                    })),
+                },
+                {
+                    key: "theme",
+                    className: styles.TopbarThemeButton,
+                    label: t(theme === "light" ? "Light theme" : "Dark theme"),
+                    icon: theme === "light" ? <Sun /> : <Moon />,
+                    onClick: toggleTheme,
+                    disabled: false,
+                    iconButton: true,
+                    selector: false,
+                },
+            ] as MenuButtonProps[],
+        [theme, language, saving, document.uid]
+    );
 
     return (
         <header className={styles.Topbar}>
@@ -234,14 +270,26 @@ function Topbar() {
                     )
                 )}
                 {!showHamburguer ? (
-                    <>{menuButtons.map((button) => button)}</>
+                    <>
+                        {menuButtons.map((props) => (
+                            <MenuButton
+                                {...props}
+                                key={props.key}
+                            />
+                        ))}
+                    </>
                 ) : (
                     <Hamburger
                         open={hamburgerOpen}
                         onToggle={() => setHamburgerOpen((prev) => !prev)}
                     >
-                        {menuButtons.map((button) => (
-                            <li>{button}</li>
+                        {menuButtons.map((props) => (
+                            <MenuItem key={props.key}>
+                                <MenuButton
+                                    {...props}
+                                    isMobile
+                                />
+                            </MenuItem>
                         ))}
                     </Hamburger>
                 )}
