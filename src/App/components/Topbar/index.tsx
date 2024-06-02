@@ -84,19 +84,20 @@ function Topbar() {
                     type="text"
                     placeholder={t("My document")}
                     onChange={(evt) => (name = evt.target.value)}
+                    onKeyDown={onEnterPress(handleResolve(name))}
                     defaultValue={name}
                 />
             ),
-            hide: () => resolve(""),
+            hide: handleResolve(""),
             buttons: [
                 {
                     color: "error",
-                    onClick: () => resolve(""),
+                    onClick: handleResolve(""),
                     children: t("Cancel"),
                 },
                 {
                     color: "success",
-                    onClick: () => resolve(name),
+                    onClick: handleResolve(name),
                     children: t("Confirm"),
                 },
             ],

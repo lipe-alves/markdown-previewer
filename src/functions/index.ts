@@ -13,3 +13,4 @@ export * from "./randInterval";
 export * from "./generateUid";
 export * from "./timeAgo";
 export * from "./getLanguageFlag";
+export * from "./onEnterPress";
