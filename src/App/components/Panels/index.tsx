@@ -1,6 +1,6 @@
 import { useEditor } from "@providers";
 
-import Documents from "../Documents";
+import DocumentList from "../DocumentList";
 import Markdown from "../Markdown";
 import Preview from "../Preview";
 
@@ -11,7 +11,7 @@ function Panels() {
 
     return (
         <div className={styles.Panels}>
-            {drafts.length > 0 && <Documents />}
+            {drafts.length > 0 && <DocumentList />}
             <Markdown />
             <Preview />
         </div>
