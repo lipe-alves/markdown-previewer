@@ -2,6 +2,10 @@ function highlightMarkdown(markdown: string, addLines = false): string {
     // Normalize to \n for newlines
     markdown = markdown.replace(/(\r\n|\n|\r)/g, "\n");
 
+    // For blockcodes
+    markdown = markdown.replace(/</g, "&lt;");
+    markdown = markdown.replace(/>/g, "&gt;");
+
     // Titles
     markdown = markdown.replace(
         /(\#+\s[^\n]+)/g,
