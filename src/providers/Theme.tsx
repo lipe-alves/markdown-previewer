@@ -78,5 +78,5 @@ function getLocalTheme(): Theme {
     );
     const browserTheme = getBrowserTheme();
     const defaultTheme = "light";
-    return localStorageTheme || browserTheme || defaultTheme;
+    return localStorageTheme /*|| browserTheme*/ || defaultTheme;
 }
