@@ -22,6 +22,7 @@ module.exports = function override(config) {
         "@types": path.resolve(__dirname, "./src/types"),
         "@functions": path.resolve(__dirname, "./src/functions"),
         "@styles": path.resolve(__dirname, "./src/styles"),
+        App: path.resolve(__dirname, "./src/App"),
     };
 
     return config;

@@ -1,6 +1,7 @@
-import DocumentList from "../DocumentList";
-import Markdown from "../Markdown";
-import Preview from "../Preview";
+import DocumentList from "App/components/DocumentList";
+import Markdown from "App/components/Markdown";
+import Preview from "App/components/Preview";
+import DocumentActions from "App/components/DocumentActions";
 
 import styles from "./styles.module.scss";
 
@@ -9,6 +10,7 @@ const Panels = () => (
         <DocumentList />
         <Markdown />
         <Preview />
+        <DocumentActions />
     </div>
 );
 

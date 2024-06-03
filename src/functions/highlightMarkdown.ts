@@ -1,10 +1,11 @@
+import escapeHTML from "./escapeHTML";
+
 function highlightMarkdown(markdown: string, addLines = false): string {
     // Normalize to \n for newlines
     markdown = markdown.replace(/(\r\n|\n|\r)/g, "\n");
 
     // For blockcodes
-    markdown = markdown.replace(/</g, "&lt;");
-    markdown = markdown.replace(/>/g, "&gt;");
+    markdown = escapeHTML(markdown);
 
     // Titles
     markdown = markdown.replace(

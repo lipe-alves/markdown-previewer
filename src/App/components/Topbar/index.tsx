@@ -17,7 +17,6 @@ import {
 import { useForceUpdate, useInterval, useWindowSize } from "@hooks";
 import { languageList, Language } from "@dictionaries";
 import { Hamburger } from "@components";
-import { MarkdownDocument } from "@models";
 
 import { Moon } from "@styled-icons/boxicons-regular/Moon";
 import { Sun } from "@styled-icons/boxicons-regular/Sun";
@@ -26,7 +25,7 @@ import { ExportOutline } from "@styled-icons/typicons/ExportOutline";
 import { FiletypeHtml } from "@styled-icons/bootstrap/FiletypeHtml";
 import { FiletypePdf } from "@styled-icons/bootstrap/FiletypePdf";
 
-import MenuButton, { MenuButtonProps } from "../MenuButton";
+import MenuButton, { MenuButtonProps } from "App/components/MenuButton";
 
 import styles from "./styles.module.scss";
 
@@ -42,40 +41,6 @@ function Topbar() {
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
     const showHamburguer = useMemo(() => windowWidth <= 700, [windowWidth]);
-
-    const exportFormatModal = (
-        resolve: (format: false | "html" | "pdf") => void
-    ) => {
-        modal.show({
-            title: t("What format do you wish to export your markdown file?"),
-            hide: () => resolve(false),
-            buttons: [
-                {
-                    color: "error",
-                    onClick: () => resolve(false),
-                    children: t("Cancel"),
-                },
-                {
-                    onClick: () => resolve("html"),
-                    children: (
-                        <>
-                            <FiletypeHtml />
-                            <span>HTML</span>
-                        </>
-                    ),
-                },
-                {
-                    onClick: () => resolve("pdf"),
-                    children: (
-                        <>
-                            <FiletypePdf />
-                            <span>PDF</span>
-                        </>
-                    ),
-                },
-            ],
-        });
-    };
 
     const documentNameModal = (resolve: (name: string) => void) => {
         let name = "";
@@ -111,34 +76,6 @@ function Topbar() {
                 },
             ],
         });
-    };
-
-    const handleExport = async () => {
-        const promise = new Promise<false | "html" | "pdf">(exportFormatModal);
-        const format = await promise;
-        modal.hide();
-        if (!format) return;
-
-        try {
-            loader.show();
-
-            const file = await createMarkdownFile(
-                editor.document.content,
-                editor.document.name,
-                format
-            );
-            if (!file) return;
-
-            await downloadFile(file);
-        } catch (error) {
-            console.error(error);
-            modal.error({
-                title: t("An unexpected error occurred"),
-                description: (error as Error).message,
-            });
-        } finally {
-            loader.hide();
-        }
     };
 
     const handleSave = async () => {
@@ -179,16 +116,6 @@ function Topbar() {
     const menuButtons = useMemo(
         () =>
             [
-                {
-                    key: "download",
-                    className: styles.TopbarButton,
-                    label: t("Download"),
-                    icon: <ExportOutline />,
-                    onClick: handleExport,
-                    disabled: false,
-                    iconButton: false,
-                    selector: false,
-                },
                 {
                     key: "save",
                     className: styles.TopbarButton,

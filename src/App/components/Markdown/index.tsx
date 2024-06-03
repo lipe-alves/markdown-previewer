@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 
 import { useEditor } from "@providers";
-import { useApp } from "../../providers";
+import { useApp } from "App/providers";
 import {
     highlightMarkdown,
     matchScrollHeights,

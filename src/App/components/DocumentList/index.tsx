@@ -4,7 +4,7 @@ import { useI18n, useEditor } from "@providers";
 
 import { Plus } from "@styled-icons/bootstrap/Plus";
 
-import DocumentItem from "../DocumentItem";
+import DocumentItem from "App/components/DocumentItem";
 
 import styles from "./styles.module.scss";
 

@@ -1,4 +1,6 @@
 .Modal {
+    max-width: fit-content !important;
+
     &[data-variant="success"] {
         color: var(--success-color);
     }

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 
 import { useModal, useLoader } from "@providers";
 import { Modal, Spinner } from "@components";
-import { AppProvider } from "./providers";
+import { AppProvider } from "App/providers";
 
-import Topbar from "./components/Topbar";
-import Panels from "./components/Panels";
+import Topbar from "App/components/Topbar";
+import Panels from "App/components/Panels";
 
 import styles from "./styles.module.scss";
 

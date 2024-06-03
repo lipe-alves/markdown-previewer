@@ -16,3 +16,7 @@ export * from "./getLanguageFlag";
 export * from "./onEnterPress";
 export * from "./scrollTogether";
 export * from "./matchScrollHeights";
+export * from "./getPreviewStyleTag";
+export * from "./escapeHTML";
+export * from "./removeCssComments";
+export * from "./printHtml";

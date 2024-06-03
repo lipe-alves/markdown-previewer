@@ -1,26 +1,23 @@
 import convertMarkdownToHtml from "./convertMarkdownToHtml";
 import convertHtmlToPdf from "./convertHtmlToPdf";
+import getPreviewStyleTag from "./getPreviewStyleTag";
+import removeCssComments from "./removeCssComments";
+import printHtml from "./printHtml";
 
 async function createMarkdownFile(
     markdown: string,
     filename: string,
     format: "pdf" | "html" | "mk" = "mk"
-): Promise<File | undefined> {
+): Promise<File | undefined | void> {
     if (!filename) filename = "untitled";
 
     let html = convertMarkdownToHtml(markdown);
     html = `<article id="preview">${html}</article>`;
 
-    const styleTags: HTMLStyleElement[] = Array.from(
-        document.querySelectorAll("style")
-    );
-    const styleTag = styleTags.find((styleTag) =>
-        styleTag.innerText.includes("#preview")
-    );
-
+    const styleTag = getPreviewStyleTag();
     if (!styleTag) return undefined;
 
-    html += `<style>${styleTag.innerText}</style>`;
+    html += `<style>${removeCssComments(styleTag.innerText)}</style>`;
 
     if (format === "html") {
         const blob = new Blob([html], {
@@ -29,8 +26,7 @@ async function createMarkdownFile(
         const file = new File([blob], filename + ".html");
         return file;
     } else if (format === "pdf") {
-        const file = await convertHtmlToPdf(html, filename + ".pdf");
-        return file;
+        printHtml(html);
     } else {
         const blob = new Blob([markdown], {
             type: "text/markdown;charset=utf-8",

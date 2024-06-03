@@ -4,7 +4,6 @@
     "Documents": "Documentos",
     "Auto save": "Salvamento automático",
     "Saving...": "Salvando...",
-    "Download": "Baixar",
     "Save": "Salvar",
     "My document": "Meu documento",
     "Confirm": "Confirmar",
@@ -21,5 +20,9 @@
     "Markdown Previewer": "Visualizador de Markdown",
     "Markdown Editor": "Editor de Markdown",
     "Untitled": "Sem título",
-    "a few seconds ago": "há poucos segundos"
+    "a few seconds ago": "há poucos segundos",
+    "Fullscreen": "Tela cheia",
+    "Fullscreen view": "Visão em tela cheia",
+    "Print": "Imprimir",
+    "Download": "Baixar"
 }
