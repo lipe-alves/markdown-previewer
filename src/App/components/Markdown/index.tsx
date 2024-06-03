@@ -2,12 +2,16 @@ import { useEffect, useMemo } from "react";
 
 import { useEditor } from "@providers";
 import { useApp } from "../../providers";
-import { highlightMarkdown, getComputedStyle, toNumber } from "@functions";
+import {
+    highlightMarkdown,
+    matchScrollHeights,
+    scrollTogether,
+} from "@functions";
 
 import styles from "./styles.module.scss";
 
 function Markdown() {
-    const { document, updateDocument } = useEditor();
+    const editor = useEditor();
     const {
         highlightedContainer,
         setHighlightedContainer,
@@ -21,7 +25,7 @@ function Markdown() {
         evt: React.ChangeEvent<HTMLTextAreaElement>
     ) => {
         const value = evt.target.value;
-        updateDocument({ content: value });
+        editor.updateDocument({ content: value });
     };
 
     const handleOnScroll = () => {
@@ -29,20 +33,15 @@ function Markdown() {
             return;
         }
 
-        const scrollPercentage =
-            textareaElement.scrollTop / textareaElement.scrollHeight;
-
-        highlightedContainer.scrollTop =
-            scrollPercentage * highlightedContainer.scrollHeight;
+        scrollTogether(textareaElement, highlightedContainer);
         if (autoScrollPreview) {
-            previewElement.scrollTop =
-                scrollPercentage * previewElement.scrollHeight;
+            scrollTogether(textareaElement, previewElement);
         }
     };
 
     const highlightedMarkdown = useMemo(
-        () => highlightMarkdown(document.content, false),
-        [document.content]
+        () => highlightMarkdown(editor.document.content, false),
+        [editor.document.content]
     );
 
     useEffect(() => {
@@ -51,20 +50,9 @@ function Markdown() {
     }, [highlightedContainer, highlightedMarkdown]);
 
     useEffect(() => {
-        if (!textareaElement || !previewElement) return;
-
-        const previewPaddingTop = toNumber(
-            getComputedStyle(textareaElement, "padding-top")
-        );
-        const previewPaddingBottom = toNumber(
-            getComputedStyle(textareaElement, "padding-bottom")
-        );
-        const previewVerticalPadding = previewPaddingTop + previewPaddingBottom;
-        const previewNewHeight =
-            textareaElement.offsetHeight - previewVerticalPadding;
-
-        previewElement.style.height = `${previewNewHeight}px`;
-    }, [textareaElement, previewElement]);
+        if (!textareaElement || !highlightedContainer) return;
+        matchScrollHeights(textareaElement, highlightedContainer);
+    }, [textareaElement, highlightedContainer]);
 
     return (
         <div className={styles.Markdown}>
@@ -74,7 +62,7 @@ function Markdown() {
                 className={styles.MarkdownTextarea}
                 onChange={handleTextareaChange}
                 onScroll={handleOnScroll}
-                value={document.content}
+                value={editor.document.content}
                 spellCheck={false}
             />
             <pre
