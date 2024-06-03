@@ -1,13 +1,31 @@
 import { useEffect } from "react";
 
+import { scrollTogether } from "@functions";
 import { useEditor } from "@providers";
-import { useApp } from "../../providers";
+import { useApp } from "App/providers";
 
 import "./styles.scss";
 
 function Preview() {
     const editor = useEditor();
-    const { previewElement, setPreviewElement } = useApp();
+    const {
+        highlightedContainer,
+        textareaElement,
+        previewElement,
+        setPreviewElement,
+        autoScrollPreview,
+    } = useApp();
+
+    const handleOnScroll = () => {
+        if (!highlightedContainer || !textareaElement || !previewElement) {
+            return;
+        }
+
+        if (autoScrollPreview) {
+            scrollTogether(previewElement, textareaElement);
+            scrollTogether(previewElement, highlightedContainer);
+        }
+    };
 
     useEffect(() => {
         if (!previewElement) return;
@@ -18,6 +36,7 @@ function Preview() {
         <div
             ref={setPreviewElement}
             id="preview"
+            onScroll={handleOnScroll}
         />
     );
 }
