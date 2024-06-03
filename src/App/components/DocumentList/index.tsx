@@ -63,19 +63,8 @@ function DocumentList() {
     };
 
     const handleAddDocument = async () => {
-        const emptyDocument = createEmptyMarkdownDocument();
-        updateDocument(emptyDocument);
-        setDrafts([...drafts, emptyDocument]);
+        editor.addBlankDocument();
     };
-
-    const handleDeleteDocument =
-        (draft: MarkdownDocument) =>
-        async (evt: React.MouseEvent<HTMLButtonElement>) => {
-            evt.stopPropagation();
-            const promise = new Promise<boolean>(confirmDeletionModal);
-            const confirmDeletion = await promise;
-            if (confirmDeletion) deleteDocument(draft.uid);
-        };
 
     return (
         <div className={styles.DocumentList}>
