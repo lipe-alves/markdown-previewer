@@ -6,13 +6,13 @@ import { useApp } from "../../providers";
 import "./styles.scss";
 
 function Preview() {
-    const { html } = useEditor();
+    const editor = useEditor();
     const { previewElement, setPreviewElement } = useApp();
 
     useEffect(() => {
         if (!previewElement) return;
-        previewElement.innerHTML = html;
-    }, [previewElement, html]);
+        previewElement.innerHTML = editor.html;
+    }, [previewElement, editor.html]);
 
     return (
         <div
