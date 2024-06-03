@@ -1,7 +1,10 @@
 import toDate from "./toDate";
+import dictionaries, { Language } from "@dictionaries";
 
-function timeAgo(input: Date | string, locale: string): string | undefined {
+function timeAgo(input: Date | string, language: Language): string | undefined {
     const date = toDate(input);
+
+    const [locale] = language.split("_");
     const formatter = new Intl.RelativeTimeFormat(locale, {
         style: "long",
     });
@@ -22,6 +25,11 @@ function timeAgo(input: Date | string, locale: string): string | undefined {
         const rangeName = key as keyof typeof ranges;
 
         if (ranges[rangeName] < Math.abs(secondsElapsed)) {
+            if (rangeName === "seconds") {
+                const dictionary = dictionaries[language];
+                return dictionary["a few seconds ago"];
+            }
+
             const delta = secondsElapsed / ranges[rangeName];
             return formatter.format(Math.round(delta), rangeName);
         }

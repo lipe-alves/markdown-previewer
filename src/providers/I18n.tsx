@@ -17,7 +17,6 @@ function I18nProvider(props: ContextProviderProps) {
     const { children } = props;
 
     const [language, setLanguage] = useState<Language>(getBrowserLanguage());
-    const [locale] = language.split("_");
 
     const translate = (text: string, replaceMatrix?: ReplaceMatrix) => {
         let translated = dictionaries[language][text] || text;
@@ -33,7 +32,7 @@ function I18nProvider(props: ContextProviderProps) {
     };
 
     const formatAsTimeAgo = (date: Date) => {
-        return timeAgo(date, locale) || "";
+        return timeAgo(date, language) || "";
     };
 
     useEffect(() => {
