@@ -1,4 +1,6 @@
+@import "variables";
 @import "colors";
+@import "animations";
 
 body,
 html {
@@ -16,17 +18,24 @@ body {
         Helvetica, Arial, sans-serif !important;
     margin: 0;
 
-    $themes: "light", "dark";
-
     @each $theme in $themes {
         &[data-theme="#{$theme}"] {
             $colors: map-get($palettes, $theme);
             --primary-color: #{map-get($colors, primary)};
             --secondary-color: #{map-get($colors, secondary)};
             --text-color: #{map-get($colors, text)};
+            --light-text-color: #{map-get($colors, light-text)};
             --error-color: #{map-get($colors, error)};
             --success-color: #{map-get($colors, success)};
             --info-color: #{map-get($colors, info)};
         }
     }
+}
+
+.MuiCheckbox-root,
+.MuiSelect-select,
+.MuiSelect-icon,
+input,
+.MuiTypography-root {
+    color: var(--text-color) !important;
 }

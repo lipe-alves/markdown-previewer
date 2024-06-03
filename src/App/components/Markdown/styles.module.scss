@@ -1,4 +1,6 @@
 @import "../../../styles/variables";
+@import "../../../styles/functions";
+@import "../../../styles/colors";
 
 .Markdown {
     position: relative;
@@ -38,7 +40,6 @@
         z-index: 0;
         flex: 1;
 
-        background-color: var(--secondary-color);
         color: var(--text-color);
         font-weight: $weight-normal;
 
@@ -81,5 +82,12 @@
                 text-indent: -$line-list-width;
             }
         }
+    }
+}
+
+@each $theme in $themes {
+    body[data-theme="#{$theme}"] .MarkdownHighlighted {
+        $secondary-theme-color: map-deep-get($palettes, $theme, secondary);
+        background-color: set-color-tone($secondary-theme-color, 1%);
     }
 }

@@ -1,0 +1,25 @@
+/**
+ * @param {string} var
+ * @param {number} tone
+ */
+@function set-color-tone($color, $tone) {
+    @if ($tone < 50%) {
+        @return darken($color, calc($tone/50 * 100));
+    } @else {
+        @return lighten($color, calc(($tone - 50) / 50 * 100));
+    }
+}
+
+/**
+ * @param {Map} map
+ * @param {...string[]} keys
+ */
+@function map-deep-get($map, $keys...) {
+    $aux: map-get($map, nth($keys, 1));
+
+    @for $i from 2 through length($keys) {
+        $aux: map-get($aux, nth($keys, $i));
+    }
+
+    @return $aux;
+}
