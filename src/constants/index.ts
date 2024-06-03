@@ -73,3 +73,5 @@ alert(message);
 This web site is using \`markedjs/marked\`.
 
 `;
+
+export const THEME_KEY = "mk-theme";
