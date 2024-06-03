@@ -8,10 +8,11 @@ import {
     TextField,
 } from "@mui/material";
 
-import { useI18n, useEditor, useModal } from "@providers";
+import { onEnterPress } from "@functions";
+import { useI18n, useEditor, useModal, useLoader } from "@providers";
 import { MarkdownDocument } from "@models";
+import { GithubEmoji } from "@components";
 
-import { FileEarmarkFill } from "@styled-icons/bootstrap/FileEarmarkFill";
 import { Delete } from "@styled-icons/fluentui-system-filled/Delete";
 import { Save } from "@styled-icons/boxicons-regular/Save";
 
@@ -25,19 +26,21 @@ function DocumentItem(props: DocumentItemProps) {
     const { draft } = props;
 
     const { t } = useI18n();
-    const {
-        document,
-        updateDocument,
-        deleteDocument,
-        selectDocument,
-        saveChanges,
-    } = useEditor();
+    const editor = useEditor();
     const modal = useModal();
+    const loader = useLoader();
 
+    const [textFieldElement, setTextFieldElement] =
+        useState<HTMLElement | null>(null);
+    const [secondaryActionElement, setSecondaryActionElement] =
+        useState<HTMLElement | null>(null);
     const [documentName, setDocumentName] = useState(draft.name);
     const [showSaveButton, setShowSaveButton] = useState(false);
 
-    const selected = document.uid === draft.uid;
+    const isANewDocument = !editor.drafts.find(
+        (item) => item.uid === draft.uid
+    );
+    const selected = editor.document.uid === draft.uid;
 
     const confirmDeletionModal = (
         resolve: (confirmDeletion: boolean) => void
@@ -71,11 +74,11 @@ function DocumentItem(props: DocumentItemProps) {
         evt.stopPropagation();
         const promise = new Promise<boolean>(confirmDeletionModal);
         const confirmDeletion = await promise;
-        if (confirmDeletion) deleteDocument(draft.uid);
+        if (confirmDeletion) editor.deleteDocument(draft.uid);
     };
 
     const handleSelectDocument = () => {
-        selectDocument(draft.uid);
+        editor.selectDocument(draft.uid);
     };
 
     const handleChangeDocumentName = (
@@ -84,22 +87,53 @@ function DocumentItem(props: DocumentItemProps) {
         setDocumentName(evt.target.value);
     };
 
-    const handleSaveDocumentName = async () => {
-        updateDocument({ name: documentName });
-        await saveChanges();
+    const handleSaveDocumentName = async (
+        evt:
+            | React.MouseEvent<HTMLButtonElement>
+            | React.KeyboardEvent<HTMLInputElement>
+    ) => {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        loader.show();
+
+        editor.updateDocument({ name: documentName });
+        await editor.saveChanges({ name: documentName });
+        setShowSaveButton(false);
+
+        loader.hide();
+    };
+
+    const handleCheckIfBlurredInput = (evt: MouseEvent) => {
+        const target = evt.target as HTMLElement | null;
+        if (!target || !secondaryActionElement || !textFieldElement) {
+            return;
+        }
+
+        const targetIsTextField =
+            target === textFieldElement || textFieldElement.contains(target);
+        const targetIsSaveButton =
+            secondaryActionElement === target ||
+            secondaryActionElement.contains(target);
+
+        if (!targetIsTextField && !targetIsSaveButton && !isANewDocument) {
+            setShowSaveButton(false);
+            window.removeEventListener("click", handleCheckIfBlurredInput);
+        }
     };
 
     const handleOnFocusInput = () => {
         setShowSaveButton(true);
-    };
-
-    const handleOnBlurInput = () => {
-        setShowSaveButton(false);
+        window.addEventListener("click", handleCheckIfBlurredInput);
     };
 
     useEffect(() => {
         setDocumentName(draft.name);
     }, [draft.name]);
+
+    useEffect(() => {
+        if (isANewDocument) setShowSaveButton(isANewDocument);
+    }, [isANewDocument]);
 
     return (
         <ListItemButton
@@ -110,8 +144,10 @@ function DocumentItem(props: DocumentItemProps) {
             selected={selected}
         >
             <ListItem
+                component="div"
                 secondaryAction={
                     <IconButton
+                        ref={setSecondaryActionElement}
                         edge="end"
                         onClick={
                             showSaveButton
@@ -124,19 +160,28 @@ function DocumentItem(props: DocumentItemProps) {
                 }
             >
                 <ListItemIcon>
-                    <FileEarmarkFill />
+                    <GithubEmoji
+                        name="page_with_curl"
+                        size={20}
+                    />
                 </ListItemIcon>
                 <ListItemText
                     primary={
                         selected ? (
                             <TextField
+                                ref={setTextFieldElement}
+                                variant="standard"
+                                InputProps={{
+                                    className: styles.DocumentItemNameInput,
+                                }}
+                                placeholder={t("Untitled")}
+                                onKeyDown={onEnterPress(handleSaveDocumentName)}
                                 onFocus={handleOnFocusInput}
-                                onBlur={handleOnBlurInput}
                                 onChange={handleChangeDocumentName}
                                 value={documentName}
                             />
                         ) : (
-                            document.name
+                            draft.name
                         )
                     }
                 />

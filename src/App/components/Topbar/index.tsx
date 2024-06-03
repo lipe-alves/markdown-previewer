@@ -36,14 +36,7 @@ function Topbar() {
     const modal = useModal();
     const loader = useLoader();
     const forceUpdate = useForceUpdate();
-    const {
-        document,
-        saving,
-        updateDocument,
-        saveChanges,
-        autoSave,
-        setAutoSave,
-    } = useEditor();
+    const editor = useEditor();
     const [windowWidth] = useWindowSize();
 
     const [hamburgerOpen, setHamburgerOpen] = useState(false);
@@ -130,8 +123,8 @@ function Topbar() {
             loader.show();
 
             const file = await createMarkdownFile(
-                document.content,
-                document.name,
+                editor.document.content,
+                editor.document.name,
                 format
             );
             if (!file) return;
@@ -149,7 +142,7 @@ function Topbar() {
     };
 
     const handleSave = async () => {
-        let name = document.name;
+        let name = editor.document.name;
         const isNameless =
             !name || name === "Untitled" || name === t("Untitled");
 
@@ -163,30 +156,25 @@ function Topbar() {
 
         loader.show();
 
-        await saveChanges({ name });
+        await editor.saveChanges({ name });
 
         loader.hide();
     };
 
     const handleChangeAutoSave = (evt: React.ChangeEvent<HTMLInputElement>) => {
-        setAutoSave(evt.target.checked);
+        editor.setAutoSave(evt.target.checked);
     };
 
     const handleChangeLanguage = (evt: SelectChangeEvent<Language>) => {
         setLanguage(evt.target.value as Language);
     };
 
-    const handleDocumentChange =
-        (prop: keyof MarkdownDocument, isCheckbox = false) =>
-        (evt: React.ChangeEvent<HTMLInputElement>) => {
-            updateDocument({
-                [prop]: evt.target[isCheckbox ? "checked" : "value"],
-            });
-        };
-
-    useInterval(() => {
-        forceUpdate();
-    }, 5 * 60 * 1000);
+    useInterval(
+        () => forceUpdate(),
+        1 * 60 * 1000,
+        [editor.document.uid],
+        true
+    );
 
     const menuButtons = useMemo(
         () =>
@@ -207,7 +195,7 @@ function Topbar() {
                     label: t("Save"),
                     icon: <Save />,
                     onClick: handleSave,
-                    disabled: saving,
+                    disabled: editor.saving,
                     iconButton: false,
                     selector: false,
                 },
@@ -241,7 +229,7 @@ function Topbar() {
                     selector: false,
                 },
             ] as MenuButtonProps[],
-        [theme, language, saving, document.uid]
+        [theme, language, editor.saving, editor.document.uid]
     );
 
     return (
@@ -254,17 +242,17 @@ function Topbar() {
                     control={
                         <Checkbox
                             onChange={handleChangeAutoSave}
-                            checked={autoSave}
+                            checked={editor.autoSave}
                         />
                     }
                 />
-                {saving ? (
+                {editor.saving ? (
                     <p className={styles.TopbarSaving}>{t("Saving...")}</p>
                 ) : (
-                    document.savedAt && (
+                    editor.document.savedAt && (
                         <p className={styles.TopbarSaveDate}>
                             {t("Saved @timeAgo", {
-                                timeAgo: timeAgo(document.savedAt),
+                                timeAgo: timeAgo(editor.document.savedAt),
                             })}
                         </p>
                     )

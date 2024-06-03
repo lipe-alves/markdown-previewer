@@ -1,5 +1,21 @@
+@import "../../../styles/animations";
+@import "../../../styles/mixins";
+
 .DocumentItem {
+    @include show-item-animation;
+
     svg {
         width: 30px;
+        color: var(--light-text-color);
+    }
+
+    &NameInput {
+        &::before {
+            border-bottom: 1px solid var(--text-color) !important;
+        }
+
+        &::after {
+            border-bottom: 1px solid var(--info-color) !important;
+        }
     }
 }
