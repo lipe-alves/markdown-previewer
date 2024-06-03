@@ -28,7 +28,7 @@ type ExportFormat = "html" | "pdf";
 
 function DocumentActions() {
     const { previewElement } = useApp();
-    const { t } = useI18n();
+    const { t, language } = useI18n();
     const modal = useModal();
     const editor = useEditor();
     const loader = useLoader();
@@ -150,7 +150,7 @@ function DocumentActions() {
                 onClick: handleExportDocument,
             },
         ],
-        [iframeHtml]
+        [iframeHtml, language]
     );
 
     const position = useMemo(() => {
