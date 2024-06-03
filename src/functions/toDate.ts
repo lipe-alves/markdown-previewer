@@ -1,5 +1,3 @@
-import fixTimezone from "./fixTimezone";
-
 /**
  * @param {any} value
  * @returns {Date}
@@ -48,7 +46,7 @@ function toDate(value: any): Date {
             value = `${month}/${day}/${yearAndTime}`;
         }
 
-        return fixTimezone(new Date(value));
+        return new Date(value);
     }
     return value;
 }
