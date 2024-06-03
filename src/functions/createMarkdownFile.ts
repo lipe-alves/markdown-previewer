@@ -1,5 +1,4 @@
 import convertMarkdownToHtml from "./convertMarkdownToHtml";
-import convertHtmlToPdf from "./convertHtmlToPdf";
 import getPreviewStyleTag from "./getPreviewStyleTag";
 import removeCssComments from "./removeCssComments";
 import printHtml from "./printHtml";
