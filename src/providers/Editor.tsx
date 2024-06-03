@@ -8,12 +8,7 @@ import { useInterval } from "@hooks";
 import { mkDocuments } from "@services";
 
 import { useLoader } from "./Loader";
-
-function createEmptyMarkdownDocument() {
-    return new MarkdownDocument({
-        content: INITIAL_MK_CONTENT,
-    });
-}
+import { useI18n } from "./I18n";
 
 interface EditorValue {
     saving: boolean;
@@ -24,6 +19,7 @@ interface EditorValue {
     updateDocument: (updates: Partial<MarkdownDocument>) => void;
     selectDocument: (uid: string) => void;
     deleteDocument: (uid: string) => void;
+    addBlankDocument: () => void;
     html: string;
 
     autoSave: boolean;
@@ -37,6 +33,7 @@ const EditorContext = createContext<EditorValue | undefined>(undefined);
 
 function EditorProvider(props: ContextProviderProps) {
     const { children } = props;
+    const { t } = useI18n();
     const loader = useLoader();
 
     const [saving, setSaving] = useState(false);
@@ -71,8 +68,14 @@ function EditorProvider(props: ContextProviderProps) {
         if (docToDelete) {
             mkDocuments.delete(docToDelete);
             fetchDrafts();
-            setDocument(createEmptyMarkdownDocument());
+            const emptyDocument = createEmptyMarkdownDocument();
+            setDocument(emptyDocument);
         }
+    };
+
+    const addBlankDocument = () => {
+        const emptyDocument = createEmptyMarkdownDocument();
+        setDocument(emptyDocument);
     };
 
     const fetchDrafts = () => {
@@ -92,6 +95,7 @@ function EditorProvider(props: ContextProviderProps) {
                 const changedDoc = new MarkdownDocument({
                     ...document,
                     ...changes,
+                    name: changes?.name || document.name || t("Untitled"),
                 });
                 const updatedDoc = mkDocuments.save(changedDoc);
 
@@ -136,6 +140,7 @@ function EditorProvider(props: ContextProviderProps) {
                 updateDocument,
                 selectDocument,
                 deleteDocument,
+                addBlankDocument,
                 html,
                 autoSave,
                 setAutoSave,
@@ -165,3 +170,9 @@ export {
     createEmptyMarkdownDocument,
 };
 export type { EditorValue };
+
+function createEmptyMarkdownDocument() {
+    return new MarkdownDocument({
+        content: INITIAL_MK_CONTENT,
+    });
+}
