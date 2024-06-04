@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+import { PREVIEW_ID } from "@constants";
 import { scrollTogether } from "@functions";
 import { useEditor } from "@providers";
 import { useApp } from "App/providers";
@@ -35,7 +36,7 @@ function Preview() {
     return (
         <div
             ref={setPreviewElement}
-            id="preview"
+            id={PREVIEW_ID}
             onScroll={handleOnScroll}
         />
     );

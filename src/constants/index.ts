@@ -1,3 +1,5 @@
+export const PREVIEW_ID = "preview";
+
 export const AUTO_SAVE_KEY = "mk-auto-save";
 export const MK_LIST_KEY = "mk-documents";
 
