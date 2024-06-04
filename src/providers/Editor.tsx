@@ -108,7 +108,6 @@ function EditorProvider(props: ContextProviderProps) {
     };
 
     useEffect(() => {
-        if (!autoSave) return;
         localStorage.setItem(AUTO_SAVE_KEY, String(autoSave));
     }, [autoSave]);
 
