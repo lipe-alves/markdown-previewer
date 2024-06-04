@@ -8,12 +8,7 @@ import {
 } from "@mui/material";
 
 import { useTheme, useModal, useLoader, useEditor, useI18n } from "@providers";
-import {
-    downloadFile,
-    createMarkdownFile,
-    getLanguageFlag,
-    onEnterPress,
-} from "@functions";
+import { getLanguageFlag, onEnterPress } from "@functions";
 import { useForceUpdate, useInterval, useWindowSize } from "@hooks";
 import { languageList, Language } from "@dictionaries";
 import { Hamburger } from "@components";
@@ -21,9 +16,6 @@ import { Hamburger } from "@components";
 import { Moon } from "@styled-icons/boxicons-regular/Moon";
 import { Sun } from "@styled-icons/boxicons-regular/Sun";
 import { Save } from "@styled-icons/boxicons-regular/Save";
-import { ExportOutline } from "@styled-icons/typicons/ExportOutline";
-import { FiletypeHtml } from "@styled-icons/bootstrap/FiletypeHtml";
-import { FiletypePdf } from "@styled-icons/bootstrap/FiletypePdf";
 
 import MenuButton, { MenuButtonProps } from "App/components/MenuButton";
 
@@ -45,7 +37,7 @@ function Topbar() {
     const documentNameModal = (resolve: (name: string) => void) => {
         let name = "";
 
-        const handleResolve = (response: string) => () => {
+        const handleResolve = (response: string) => {
             modal.hide();
             resolve(response);
         };
@@ -58,20 +50,20 @@ function Topbar() {
                     type="text"
                     placeholder={t("My document")}
                     onChange={(evt) => (name = evt.target.value)}
-                    onKeyDown={onEnterPress(handleResolve(name))}
+                    onKeyDown={onEnterPress(() => handleResolve(name))}
                     defaultValue={name}
                 />
             ),
-            hide: handleResolve(""),
+            hide: () => handleResolve(""),
             buttons: [
                 {
                     color: "error",
-                    onClick: handleResolve(""),
+                    onClick: () => handleResolve(""),
                     children: t("Cancel"),
                 },
                 {
                     color: "success",
-                    onClick: handleResolve(name),
+                    onClick: () => handleResolve(name),
                     children: t("Confirm"),
                 },
             ],
