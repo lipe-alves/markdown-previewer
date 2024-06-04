@@ -4,6 +4,7 @@ function onEnterPress(
     return (evt: React.KeyboardEvent<HTMLInputElement>) => {
         const code =
             evt.key || evt.code || evt.keyCode || evt.which || evt.charCode;
+
         if (code == 13 || code === "Enter") {
             onEnterPress(evt);
         }

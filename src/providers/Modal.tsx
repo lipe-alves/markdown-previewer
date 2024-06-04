@@ -54,7 +54,10 @@ function ModalProvider(props: ContextProviderProps) {
     };
 
     const hide = () => {
-        setModalProps({ visible: false });
+        setModalProps((prev) => ({
+            ...prev,
+            visible: false,
+        }));
     };
 
     return (
