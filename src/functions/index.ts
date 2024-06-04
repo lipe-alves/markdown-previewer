@@ -20,3 +20,7 @@ export * from "./getPreviewStyleTag";
 export * from "./escapeHTML";
 export * from "./removeCssComments";
 export * from "./printHtml";
+export * from "./isLocal";
+export * from "./preparePreviewHtml";
+export * from "./getMatchedCSSRules";
+export * from "./isSameOrigin";

@@ -1,16 +1,15 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 
 import { useI18n, useModal, useEditor, useLoader } from "@providers";
 import { useWindowSize } from "@hooks";
 import {
-    removeCssComments,
-    getPreviewStyleTag,
     printHtml,
     downloadFile,
     createMarkdownFile,
     toNumber,
     getComputedStyle,
+    preparePreviewHtml,
 } from "@functions";
 import { useApp } from "App/providers";
 
@@ -34,16 +33,10 @@ function DocumentActions() {
     const loader = useLoader();
     const [windowWidth, windowHeight] = useWindowSize();
 
-    const iframeHtml = useMemo(() => {
-        let html = `<article id="preview">${editor.html}</article>`;
-
-        const styleTag = getPreviewStyleTag();
-        if (!styleTag) return "";
-
-        html += `<style>${removeCssComments(styleTag.innerText)}</style>`;
-
-        return html;
-    }, [editor.html]);
+    const iframeHtml = useMemo(
+        () => preparePreviewHtml(editor.html),
+        [editor.html, editor.document, previewElement?.innerHTML]
+    );
 
     const handleOpenFullscreen = () => {
         modal.show({

@@ -1,7 +1,6 @@
 import convertMarkdownToHtml from "./convertMarkdownToHtml";
-import getPreviewStyleTag from "./getPreviewStyleTag";
-import removeCssComments from "./removeCssComments";
 import printHtml from "./printHtml";
+import preparePreviewHtml from "./preparePreviewHtml";
 
 async function createMarkdownFile(
     markdown: string,
@@ -11,12 +10,7 @@ async function createMarkdownFile(
     if (!filename) filename = "untitled";
 
     let html = convertMarkdownToHtml(markdown);
-    html = `<article id="preview">${html}</article>`;
-
-    const styleTag = getPreviewStyleTag();
-    if (!styleTag) return undefined;
-
-    html += `<style>${removeCssComments(styleTag.innerText)}</style>`;
+    html = preparePreviewHtml(html);
 
     if (format === "html") {
         const blob = new Blob([html], {
