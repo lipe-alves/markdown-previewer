@@ -1,8 +1,39 @@
-# Markdown Previewer
+<h1 align="center">
+    <br />
+    <a href="https://markdown-previewer-d723b.web.app">
+        <img 
+            src="./public/images/logo.png" 
+            alt="Markdown Previewer" 
+            width="200"
+        />
+    </a>
+    <br />
+    Markdown Previewer
+    <br />
+</h1>
+
+<h4 align="center">
+    A minimal Markdown Editor web app built for those on a hurry
+</h4>
+
+<p align="center">
+    <a href="#about-the-project">About the Project</a> •
+    <a href="#key-features">Key Features</a> •
+    <a href="#website">Website</a> •
+    <a href="#technologies-used">Technologies Used</a> •
+    <a href="#how-to-use">How To Use</a> •
+    <a href="#how-to-install">How To Install</a> •
+    <a href="#contributing">Contributing</a> •
+    <a href="#credits">Credits</a> 
+</p>
+
+[![Watch the video](./public/images/screenshot.jpeg)](./public/videos/screen-capture.webm)
+
+## About the Project
 
 Welcome to the Markdown Previewer project! This project was created as part of the Front End Development Libraries certification on freeCodeCamp. It allows you to preview your Markdown in real-time, with additional features like internationalization, light and dark themes, markdown syntax highlighting, the ability to save your markdown files, and conversion of markdown to PDF or HTML.
 
-## Features
+## Key Features
 
 -   Real-time Markdown preview
 -   Internationalization support
@@ -10,6 +41,14 @@ Welcome to the Markdown Previewer project! This project was created as part of t
 -   Markdown syntax highlighting
 -   Save your markdown files
 -   Convert markdown to PDF or HTML
+-   GitHub Flavored Markdown
+-   Syntax highlighting
+-   Full screen mode
+-   Autosave
+
+## Website
+
+Website URL: https://markdown-previewer-d723b.web.app
 
 ## Technologies Used
 
@@ -17,7 +56,15 @@ Welcome to the Markdown Previewer project! This project was created as part of t
 -   React
 -   SASS
 
-## Getting Started
+## How To Use
+
+1. Enter your Markdown text in the editor area.
+2. The preview area will update in real-time to display the formatted Markdown.
+3. Use the toggle buttons to switch between light and dark themes.
+4. Click the save button to save your Markdown file.
+5. Use the export buttons to convert Markdown to PDF or HTML.
+
+## How To Install
 
 Follow these steps to get started with the Markdown Previewer project:
 
@@ -40,14 +87,6 @@ npm run start
 ```
 
 4. Open your browser and navigate to `http://localhost:3000` to view the Markdown Previewer.
-
-## Usage
-
-1. Enter your Markdown text in the editor area.
-2. The preview area will update in real-time to display the formatted Markdown.
-3. Use the toggle buttons to switch between light and dark themes.
-4. Click the save button to save your Markdown file.
-5. Use the export buttons to convert Markdown to PDF or HTML.
 
 ## Contributing
 
