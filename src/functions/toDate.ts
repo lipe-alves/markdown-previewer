@@ -1,7 +1,3 @@
-/**
- * @param {any} value
- * @returns {Date}
- */
 function toDate(value: any): Date {
     if (value && typeof value === "object" && value.toDate) {
         const date = value.toDate();
