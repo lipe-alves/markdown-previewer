@@ -77,9 +77,7 @@ function Topbar() {
 
         if (isNameless) {
             const promise = new Promise<string>(documentNameModal);
-
             name = await promise;
-            modal.hide();
             if (!name) return;
         }
 
